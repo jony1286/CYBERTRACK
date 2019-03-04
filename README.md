@@ -84,8 +84,7 @@ tau <- 0.1
 nu <- K+1
 Lambda <- diag(K)
 kmpar <- kminit(kmY,L,123)
-A <- matrix(1,L,L) #dirichlet parameter
-piini <- cpp_rdirichlet(T,A)
+piini <- matrix(1/L,T,L)
 alphaini <- c(rep(1,T))
 muini <- kmpar$mean
 Sigmaini <- kmpar$var
