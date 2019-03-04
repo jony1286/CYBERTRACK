@@ -6,49 +6,6 @@
 
 using namespace Rcpp;
 
-// rcpparma_hello_world
-arma::mat rcpparma_hello_world();
-RcppExport SEXP _CYBERTRACK_rcpparma_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpparma_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_outerproduct
-arma::mat rcpparma_outerproduct(const arma::colvec& x);
-RcppExport SEXP _CYBERTRACK_rcpparma_outerproduct(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_outerproduct(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_innerproduct
-double rcpparma_innerproduct(const arma::colvec& x);
-RcppExport SEXP _CYBERTRACK_rcpparma_innerproduct(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_innerproduct(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_bothproducts
-Rcpp::List rcpparma_bothproducts(const arma::colvec& x);
-RcppExport SEXP _CYBERTRACK_rcpparma_bothproducts(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_bothproducts(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // softmax
 arma::rowvec softmax(const arma::rowvec& x);
 RcppExport SEXP _CYBERTRACK_softmax(SEXP xSEXP) {
@@ -223,53 +180,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cybertrack_noW
-Rcpp::List cybertrack_noW(const arma::mat& Y, const int& L, arma::mat piini, arma::rowvec alphaini, const arma::mat& muini, const arma::cube& Sigmaini, const double& tau, const double& nu, const arma::mat& Lambda, const int& num_iter, int T, arma::rowvec t_id);
-RcppExport SEXP _CYBERTRACK_cybertrack_noW(SEXP YSEXP, SEXP LSEXP, SEXP piiniSEXP, SEXP alphainiSEXP, SEXP muiniSEXP, SEXP SigmainiSEXP, SEXP tauSEXP, SEXP nuSEXP, SEXP LambdaSEXP, SEXP num_iterSEXP, SEXP TSEXP, SEXP t_idSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< const int& >::type L(LSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type piini(piiniSEXP);
-    Rcpp::traits::input_parameter< arma::rowvec >::type alphaini(alphainiSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type muini(muiniSEXP);
-    Rcpp::traits::input_parameter< const arma::cube& >::type Sigmaini(SigmainiSEXP);
-    Rcpp::traits::input_parameter< const double& >::type tau(tauSEXP);
-    Rcpp::traits::input_parameter< const double& >::type nu(nuSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type Lambda(LambdaSEXP);
-    Rcpp::traits::input_parameter< const int& >::type num_iter(num_iterSEXP);
-    Rcpp::traits::input_parameter< int >::type T(TSEXP);
-    Rcpp::traits::input_parameter< arma::rowvec >::type t_id(t_idSEXP);
-    rcpp_result_gen = Rcpp::wrap(cybertrack_noW(Y, L, piini, alphaini, muini, Sigmaini, tau, nu, Lambda, num_iter, T, t_id));
-    return rcpp_result_gen;
-END_RCPP
-}
 // cybertrack
-Rcpp::List cybertrack(const arma::mat& Y, const int& L, arma::mat piini, arma::rowvec alphaini, const arma::mat& muini, const arma::cube& Sigmaini, const double& tau, const double& nu, const arma::mat& Lambda, const int& num_iter, int T, arma::rowvec t_id);
-RcppExport SEXP _CYBERTRACK_cybertrack(SEXP YSEXP, SEXP LSEXP, SEXP piiniSEXP, SEXP alphainiSEXP, SEXP muiniSEXP, SEXP SigmainiSEXP, SEXP tauSEXP, SEXP nuSEXP, SEXP LambdaSEXP, SEXP num_iterSEXP, SEXP TSEXP, SEXP t_idSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< const int& >::type L(LSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type piini(piiniSEXP);
-    Rcpp::traits::input_parameter< arma::rowvec >::type alphaini(alphainiSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type muini(muiniSEXP);
-    Rcpp::traits::input_parameter< const arma::cube& >::type Sigmaini(SigmainiSEXP);
-    Rcpp::traits::input_parameter< const double& >::type tau(tauSEXP);
-    Rcpp::traits::input_parameter< const double& >::type nu(nuSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type Lambda(LambdaSEXP);
-    Rcpp::traits::input_parameter< const int& >::type num_iter(num_iterSEXP);
-    Rcpp::traits::input_parameter< int >::type T(TSEXP);
-    Rcpp::traits::input_parameter< arma::rowvec >::type t_id(t_idSEXP);
-    rcpp_result_gen = Rcpp::wrap(cybertrack(Y, L, piini, alphaini, muini, Sigmaini, tau, nu, Lambda, num_iter, T, t_id));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cybertrack_v2
-Rcpp::List cybertrack_v2(Rcpp::List& Y, const int& L, const int& D, arma::mat piini, arma::rowvec alphaini, const arma::mat& muini, const arma::cube& Sigmaini, const double& tau, const double& nu, const arma::mat& Lambda, const int& num_iter, Rcpp::List t_id);
-RcppExport SEXP _CYBERTRACK_cybertrack_v2(SEXP YSEXP, SEXP LSEXP, SEXP DSEXP, SEXP piiniSEXP, SEXP alphainiSEXP, SEXP muiniSEXP, SEXP SigmainiSEXP, SEXP tauSEXP, SEXP nuSEXP, SEXP LambdaSEXP, SEXP num_iterSEXP, SEXP t_idSEXP) {
+Rcpp::List cybertrack(Rcpp::List& Y, const int& L, const int& D, arma::mat piini, arma::rowvec alphaini, const arma::mat& muini, const arma::cube& Sigmaini, const double& tau, const double& nu, const arma::mat& Lambda, const int& num_iter, Rcpp::List t_id);
+RcppExport SEXP _CYBERTRACK_cybertrack(SEXP YSEXP, SEXP LSEXP, SEXP DSEXP, SEXP piiniSEXP, SEXP alphainiSEXP, SEXP muiniSEXP, SEXP SigmainiSEXP, SEXP tauSEXP, SEXP nuSEXP, SEXP LambdaSEXP, SEXP num_iterSEXP, SEXP t_idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -285,52 +198,55 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type Lambda(LambdaSEXP);
     Rcpp::traits::input_parameter< const int& >::type num_iter(num_iterSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type t_id(t_idSEXP);
-    rcpp_result_gen = Rcpp::wrap(cybertrack_v2(Y, L, D, piini, alphaini, muini, Sigmaini, tau, nu, Lambda, num_iter, t_id));
+    rcpp_result_gen = Rcpp::wrap(cybertrack(Y, L, D, piini, alphaini, muini, Sigmaini, tau, nu, Lambda, num_iter, t_id));
     return rcpp_result_gen;
 END_RCPP
 }
-// loglik_givW
-double loglik_givW(Rcpp::List& Y, Rcpp::List& W, const int& L, const int& D, Rcpp::List& pi, const arma::mat& mu, const arma::cube& Sigma, Rcpp::List& t_id);
-RcppExport SEXP _CYBERTRACK_loglik_givW(SEXP YSEXP, SEXP WSEXP, SEXP LSEXP, SEXP DSEXP, SEXP piSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP t_idSEXP) {
+// rcpparma_hello_world
+arma::mat rcpparma_hello_world();
+RcppExport SEXP _CYBERTRACK_rcpparma_hello_world() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type W(WSEXP);
-    Rcpp::traits::input_parameter< const int& >::type L(LSEXP);
-    Rcpp::traits::input_parameter< const int& >::type D(DSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type pi(piSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type mu(muSEXP);
-    Rcpp::traits::input_parameter< const arma::cube& >::type Sigma(SigmaSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type t_id(t_idSEXP);
-    rcpp_result_gen = Rcpp::wrap(loglik_givW(Y, W, L, D, pi, mu, Sigma, t_id));
+    rcpp_result_gen = Rcpp::wrap(rcpparma_hello_world());
     return rcpp_result_gen;
 END_RCPP
 }
-// integ_comp_lik
-double integ_comp_lik(Rcpp::List& Y, Rcpp::List& W, const int& L, const int& D, Rcpp::List& pi, const arma::mat& mu, const arma::cube& Sigma, Rcpp::List& t_id);
-RcppExport SEXP _CYBERTRACK_integ_comp_lik(SEXP YSEXP, SEXP WSEXP, SEXP LSEXP, SEXP DSEXP, SEXP piSEXP, SEXP muSEXP, SEXP SigmaSEXP, SEXP t_idSEXP) {
+// rcpparma_outerproduct
+arma::mat rcpparma_outerproduct(const arma::colvec& x);
+RcppExport SEXP _CYBERTRACK_rcpparma_outerproduct(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::List& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type W(WSEXP);
-    Rcpp::traits::input_parameter< const int& >::type L(LSEXP);
-    Rcpp::traits::input_parameter< const int& >::type D(DSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type pi(piSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type mu(muSEXP);
-    Rcpp::traits::input_parameter< const arma::cube& >::type Sigma(SigmaSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List& >::type t_id(t_idSEXP);
-    rcpp_result_gen = Rcpp::wrap(integ_comp_lik(Y, W, L, D, pi, mu, Sigma, t_id));
+    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpparma_outerproduct(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpparma_innerproduct
+double rcpparma_innerproduct(const arma::colvec& x);
+RcppExport SEXP _CYBERTRACK_rcpparma_innerproduct(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpparma_innerproduct(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpparma_bothproducts
+Rcpp::List rcpparma_bothproducts(const arma::colvec& x);
+RcppExport SEXP _CYBERTRACK_rcpparma_bothproducts(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpparma_bothproducts(x));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_CYBERTRACK_rcpparma_hello_world", (DL_FUNC) &_CYBERTRACK_rcpparma_hello_world, 0},
-    {"_CYBERTRACK_rcpparma_outerproduct", (DL_FUNC) &_CYBERTRACK_rcpparma_outerproduct, 1},
-    {"_CYBERTRACK_rcpparma_innerproduct", (DL_FUNC) &_CYBERTRACK_rcpparma_innerproduct, 1},
-    {"_CYBERTRACK_rcpparma_bothproducts", (DL_FUNC) &_CYBERTRACK_rcpparma_bothproducts, 1},
     {"_CYBERTRACK_softmax", (DL_FUNC) &_CYBERTRACK_softmax, 1},
     {"_CYBERTRACK_weighted_colMeans", (DL_FUNC) &_CYBERTRACK_weighted_colMeans, 3},
     {"_CYBERTRACK_weighted_colMeans_v2", (DL_FUNC) &_CYBERTRACK_weighted_colMeans_v2, 5},
@@ -343,11 +259,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_CYBERTRACK_sigma_update", (DL_FUNC) &_CYBERTRACK_sigma_update, 6},
     {"_CYBERTRACK_sigma_update_v2", (DL_FUNC) &_CYBERTRACK_sigma_update_v2, 7},
     {"_CYBERTRACK_rowSums", (DL_FUNC) &_CYBERTRACK_rowSums, 1},
-    {"_CYBERTRACK_cybertrack_noW", (DL_FUNC) &_CYBERTRACK_cybertrack_noW, 12},
     {"_CYBERTRACK_cybertrack", (DL_FUNC) &_CYBERTRACK_cybertrack, 12},
-    {"_CYBERTRACK_cybertrack_v2", (DL_FUNC) &_CYBERTRACK_cybertrack_v2, 12},
-    {"_CYBERTRACK_loglik_givW", (DL_FUNC) &_CYBERTRACK_loglik_givW, 8},
-    {"_CYBERTRACK_integ_comp_lik", (DL_FUNC) &_CYBERTRACK_integ_comp_lik, 8},
+    {"_CYBERTRACK_rcpparma_hello_world", (DL_FUNC) &_CYBERTRACK_rcpparma_hello_world, 0},
+    {"_CYBERTRACK_rcpparma_outerproduct", (DL_FUNC) &_CYBERTRACK_rcpparma_outerproduct, 1},
+    {"_CYBERTRACK_rcpparma_innerproduct", (DL_FUNC) &_CYBERTRACK_rcpparma_innerproduct, 1},
+    {"_CYBERTRACK_rcpparma_bothproducts", (DL_FUNC) &_CYBERTRACK_rcpparma_bothproducts, 1},
     {NULL, NULL, 0}
 };
 

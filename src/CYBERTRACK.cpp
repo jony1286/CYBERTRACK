@@ -254,7 +254,7 @@ arma::cube sigma_update(arma::mat mu, arma::mat z, arma::mat w, int L,
 
 // [[Rcpp::export]]
 arma::cube sigma_update_v2(arma::mat mu, Rcpp::List Y, Rcpp::List W, int L, int D,
-                        double nu, arma::mat Lambda){
+                           double nu, arma::mat Lambda){
   int K = mu.n_rows;
   arma::cube Sigma(K,K,L);
   Sigma.fill(0);
@@ -289,124 +289,9 @@ arma::vec rowSums(const arma::mat & X){
 }
 
 // [[Rcpp::export]]
-Rcpp::List cybertrack_noW(const arma::mat & Y, const int & L, arma::mat piini, arma::rowvec alphaini, 
-                          const arma::mat & muini, const arma::cube & Sigmaini,const double & tau, const double & nu, 
-                          const arma::mat & Lambda, const int & num_iter, int T, arma::rowvec t_id){
-  arma::mat pi = piini;
-  arma::rowvec alpha = alphaini;
-  arma::mat mu = muini;
-  arma::cube Sigma = Sigmaini;
-  arma::vec llhist(num_iter-1);
-  llhist.fill(0);
-  //Progress prog(num_iter);
-  List LW(2);
-  
-  arma::mat minmax_id(2,T);
-  arma::rowvec unique_time = arma::unique(t_id);
-  for(int t=0; t<T; t++){
-    arma::uvec id = arma::find(t_id == unique_time(t));
-    minmax_id(0,t) = arma::min(id);
-    minmax_id(1,t) = arma::max(id);
-  }
-  for(int h=1;h<num_iter;h++){
-    if(Sigma.has_nan()){
-      break;
-    }
-    //Gibbs sampling of latent variable
-    LW = simW(Y,pi,mu,Sigma,L,minmax_id,T); 
-    arma::mat tmpW = LW[0];
-    llhist(h-1) = LW[1];
-    
-    //Caluclate alpha and pi
-    for(int t=0;t<T;t++){
-      if(t==0){
-        alpha(0) = 1;
-        arma::rowvec nl(L);
-        int start = minmax_id(0,t);
-        int end = minmax_id(1,t);
-        int Nt = end-start+1;
-        for(int l=0;l<L;l++){
-          nl(l) = arma::sum(tmpW(arma::span(start,end),l));
-        }
-        pi.row(0) = (nl+alpha(0))/(Nt+L*alpha(0));
-      } else{
-        alpha(t) = alpha_update(tmpW,alpha(t),pi.row(t-1),L,minmax_id.col(t));
-        pi.row(t) = pi_update(tmpW,pi.row(t-1),minmax_id.col(t),alpha(t),L,T);
-      }
-    }
-    for(int l=0;l<L;l++){
-      mu.col(l) = weighted_colMeans(Y,tmpW.col(l),tau);
-    }
-    Sigma = sigma_update(mu,Y,tmpW,L,nu,Lambda);
-    //prog.increment();
-  }
-  return Rcpp::List::create(Rcpp::Named("pi")=pi,_["alpha"]=alpha,_["Sigma"]=Sigma,
-                            _["mu"]=mu,_["loglik"]=llhist);
-}
-
-// [[Rcpp::export]]
-Rcpp::List cybertrack(const arma::mat & Y, const int & L, arma::mat piini, arma::rowvec alphaini, 
-                      const arma::mat & muini, const arma::cube & Sigmaini,const double & tau, const double & nu, 
-                      const arma::mat & Lambda, const int & num_iter, int T, arma::rowvec t_id){
-  arma::mat pi = piini;
-  arma::rowvec alpha = alphaini;
-  arma::mat mu = muini;
-  arma::cube Sigma = Sigmaini;
-  int N = Y.n_rows;
-  arma::mat W(N,L);
-  arma::vec llhist(num_iter-1);
-  llhist.fill(0);
-  //Progress prog(num_iter);
-  List LW(2);
-  
-  arma::mat minmax_id(2,T);
-  arma::rowvec unique_time = arma::unique(t_id);
-  for(int t=0; t<T; t++){
-    arma::uvec id = arma::find(t_id == unique_time(t));
-    minmax_id(0,t) = arma::min(id);
-    minmax_id(1,t) = arma::max(id);
-  }
-  for(int h=1;h<num_iter;h++){
-    if(Sigma.has_nan()){
-      break;
-    }
-    //Gibbs sampling of latent variable
-    LW = simW(Y,pi,mu,Sigma,L,minmax_id,T); 
-    arma::mat tmpW = LW[0];
-    llhist(h-1) = LW[1];
-    
-    //Caluclate alpha and pi
-    for(int t=0;t<T;t++){
-      if(t==0){
-        alpha(0) = 1;
-        arma::rowvec nl(L);
-        int start = minmax_id(0,t);
-        int end = minmax_id(1,t);
-        int Nt = end-start+1;
-        for(int l=0;l<L;l++){
-          nl(l) = arma::sum(tmpW(arma::span(start,end),l));
-        }
-        pi.row(0) = (nl+alpha(0))/(Nt+L*alpha(0));
-      } else{
-        alpha(t) = alpha_update(tmpW,alpha(t),pi.row(t-1),L,minmax_id.col(t));
-        pi.row(t) = pi_update(tmpW,pi.row(t-1),minmax_id.col(t),alpha(t),L,T);
-      }
-    }
-    for(int l=0;l<L;l++){
-      mu.col(l) = weighted_colMeans(Y,tmpW.col(l),tau);
-    }
-    Sigma = sigma_update(mu,Y,tmpW,L,nu,Lambda);
-    W = tmpW;
-    //prog.increment();
-  }
-  return Rcpp::List::create(Rcpp::Named("pi")=pi,_["alpha"]=alpha,_["Sigma"]=Sigma,
-                            _["mu"]=mu,_["W"]=W,_["loglik"]=llhist);
-}
-
-// [[Rcpp::export]]
-Rcpp::List cybertrack_v2(Rcpp::List & Y, const int & L, const int & D, arma::mat piini, arma::rowvec alphaini, 
-                      const arma::mat & muini, const arma::cube & Sigmaini,const double & tau, const double & nu, 
-                      const arma::mat & Lambda, const int & num_iter, Rcpp::List t_id){
+Rcpp::List cybertrack(Rcpp::List & Y, const int & L, const int & D, arma::mat piini, arma::rowvec alphaini, 
+                         const arma::mat & muini, const arma::cube & Sigmaini,const double & tau, const double & nu, 
+                         const arma::mat & Lambda, const int & num_iter, Rcpp::List t_id){
   
   Rcpp::List pi(D);
   Rcpp::List alpha(D);
@@ -467,92 +352,4 @@ Rcpp::List cybertrack_v2(Rcpp::List & Y, const int & L, const int & D, arma::mat
   }
   return Rcpp::List::create(Rcpp::Named("pi")=pi,_["alpha"]=alpha,_["Sigma"]=Sigma,
                             _["mu"]=mu,_["W"]=W,_["loglik"]=llhist);
-}
-
-// [[Rcpp::export]]
-double loglik_givW(Rcpp::List & Y, Rcpp::List & W, const int & L, const int & D, Rcpp::List & pi, 
-                   const arma::mat & mu, const arma::cube & Sigma, Rcpp::List & t_id){
-  //int N = Y.n_rows;
-  double loglik = 0;
-  arma::uvec w(1); 
-  arma::vec rootdet(L);
-  arma::cube invsigma=Sigma;
-  //Rprintf("1 ");
-  for(int l=0; l<L; l++){
-    rootdet(l) = -std::log(det(Sigma.slice(l)))/2.0;
-    invsigma.slice(l) = arma::inv_sympd(Sigma.slice(l)); //sigma inverse
-  }
-  //Rprintf("2 ");
-  for(int d=0;d<D;d++){
-    arma::mat tmpY = Y[d];
-    arma::mat tmpW = W[d];
-    arma::mat tmppi = pi[d];
-    arma::rowvec tmpt_id = t_id[d];
-    arma::rowvec unique_time = arma::unique(tmpt_id);
-    int T = unique_time.n_cols;
-    //arma::mat minmax_id(2,T);
-    //minmax_id.fill(0);
-    //Rprintf("3 ");
-    for(int t=0; t<T; t++){
-      arma::uvec id = arma::find(tmpt_id == unique_time(t));
-      //minmax_id(0,t) = arma::min(id);
-      //minmax_id(1,t) = arma::max(id);
-      int start = arma::min(id);
-      int end = arma::max(id);
-      int Nt = end - start + 1;
-      //Rprintf("4 ");
-      for(int n=0; n<Nt; n++){
-        w = arma::find(tmpW.row(n)==1);
-        int z = w(0);
-        loglik += mvnorm_lpdf_det(tmpY.row(n).t(),mu.col(z),invsigma.slice(z),rootdet(z))+
-          std::log(tmppi(t,z));
-        //Rprintf("5 ");
-      }
-    }
-  }
-  return loglik;
-}
-
-// [[Rcpp::export]]
-double integ_comp_lik(Rcpp::List & Y, Rcpp::List & W, const int & L, const int & D, Rcpp::List & pi, 
-                   const arma::mat & mu, const arma::cube & Sigma, Rcpp::List & t_id){
-  //int N = Y.n_rows;
-  double loglik = 0;
-  arma::uvec w(1); 
-  arma::vec rootdet(L);
-  arma::cube invsigma=Sigma;
-  //Rprintf("1 ");
-  for(int l=0; l<L; l++){
-    rootdet(l) = -std::log(det(Sigma.slice(l)))/2.0;
-    invsigma.slice(l) = arma::inv_sympd(Sigma.slice(l)); //sigma inverse
-  }
-  //Rprintf("2 ");
-  for(int d=0;d<D;d++){
-    arma::mat tmpY = Y[d];
-    arma::mat tmpW = W[d];
-    arma::mat tmppi = pi[d];
-    arma::rowvec tmpt_id = t_id[d];
-    arma::rowvec unique_time = arma::unique(tmpt_id);
-    int T = unique_time.n_cols;
-    //arma::mat minmax_id(2,T);
-    //minmax_id.fill(0);
-    //Rprintf("3 ");
-    for(int t=0; t<T; t++){
-      arma::uvec id = arma::find(tmpt_id == unique_time(t));
-      //minmax_id(0,t) = arma::min(id);
-      //minmax_id(1,t) = arma::max(id);
-      int start = arma::min(id);
-      int end = arma::max(id);
-      int Nt = end - start + 1;
-      //Rprintf("4 ");
-      for(int n=0; n<Nt; n++){
-        w = arma::find(tmpW.row(n)==1);
-        int z = w(0);
-        loglik += mvnorm_lpdf_det(tmpY.row(n).t(),mu.col(z),invsigma.slice(z),rootdet(z))+
-          std::log(tmppi(t,z));
-        //Rprintf("5 ");
-      }
-    }
-  }
-  return loglik;
 }
