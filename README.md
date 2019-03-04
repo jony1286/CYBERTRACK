@@ -25,6 +25,7 @@ devtools::install_github("kodaim1115/CYBERTRACK")
 
 ~~~R
 library(CYBERTRACK)
+library(mvtnorm)
 
 set.seed(1234)
 sample <- 1000000
