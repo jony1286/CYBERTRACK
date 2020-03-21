@@ -101,3 +101,4 @@ CYBERTRACK enables cell clustering, population tracking, and change-point detect
 In CYBERTRACK, flow cytometry data is assumed to be generated from a multivariate Gaussian mixture distribution.
 
 ## Reference
+Minoura, K., Abe, K., Maeda, Y., Nishikawa, H., & Shimamura, T. (2019). Model-based cell clustering and population tracking for time-series flow cytometry data. BMC bioinformatics, 20(23), 1-10.
