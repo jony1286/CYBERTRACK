@@ -142,6 +142,7 @@ muini <- kmpar$mean
 Sigmaini <- kmpar$var
 
 result <- cybertrack(Y,L,D,piini,alphaini,muini,Sigmaini,tau,nu,Lambda,num_iter,t_id)
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
